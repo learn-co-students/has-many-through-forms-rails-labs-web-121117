@@ -1,3 +1,4 @@
+
 class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
@@ -9,6 +10,8 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @categories = Category.all
+    @users = User.all
   end
 
   def create
@@ -19,6 +22,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, category_ids:[], categories_attributes: [:name])
+    params.require(:post).permit(:title, :content, category_ids:[], categories_attributes: [:name], user_ids:[], users_attributes: [:username])
   end
 end
