@@ -6,10 +6,25 @@
   <% end %>
 </ul>
 
-  <% @post.comments.map(&:user).uniq.each do |user| %>
-    <%= link_to user.username, user_path(user) %>
-  <% end %>
+<% @post.comments.map(&:user).uniq.each do |user| %>
+  <%= link_to user.username, user_path(user) %>
+<% end %>
 
-  <% @post.categories.each do |c| %>
-    <%= c.name %>
+<% @post.categories.each do |c| %>
+  <%= c.name %>
+<% end %>
+
+
+<% @post.comments.each do |comment| %>
+  <%= "#{comment.user.username} says: #{comment.content}" %>
+<% end %>
+
+
+<%= form_for @post.comments.build, url: "/comments?post_id=#{@post.id}"  do |f| %>
+  Username: <%= f.collection_select :user_id, @users, :id, :username, :include_blank => 'Blank option' %>
+  <%= f.fields_for :user_attributes do |uf| %>
+    Username: <%= uf.text_field :username %>
   <% end %>
+    Content: <%= f.text_field :content%>
+  <%= f.submit "Create Comment"%>
+<% end %>
