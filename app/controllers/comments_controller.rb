@@ -1,7 +1,9 @@
 class CommentsController < ApplicationController
 
   def create
+    # byebug
     comment = Comment.create(comment_params)
+    Post.find(params[:post_id]).comments << comment
     redirect_to comment.post
   end
 
